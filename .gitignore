@@ -1,0 +1,6 @@
+asset-manifest.json
+prepare-assets.cjs
+revise-home.cjs
+node_modules/
+*.tar.gz
+qa-*.png
