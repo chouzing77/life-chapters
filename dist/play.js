@@ -2,10 +2,10 @@ const PROJECTS=[{"name": "夕拾", "html": "<div class=\"experience-row\"><div c
 const $=s=>document.querySelector(s),screen=$('#screen'),world=$('#world'),player=$('#player'),sprite=player.querySelector('img'),dialog=$('#project-dialog');
 const WIDTH=4200,FLOOR=390;
 const blocks=[
- // 01: broad ascending steps.
- {x:230,y:345,w:85,h:45},{x:345,y:290,w:110,h:100},{x:475,y:235,w:110,h:155},
+ // 01: four narrow steps with higher rises.
+ {x:230,y:330,w:65,h:60},{x:350,y:265,w:65,h:125},{x:480,y:200,w:60,h:190},{x:610,y:150,w:75,h:240},
  // 02: separated narrow stepping stones, with safe ground below.
- {x:900,y:330,w:75,h:60},{x:1050,y:285,w:65,h:105},{x:1200,y:240,w:80,h:150},
+ {x:900,y:325,w:55,h:65},{x:1060,y:245,w:48,h:145},{x:1220,y:300,w:45,h:90},{x:1375,y:205,w:60,h:185},
  // 03: two tall steps lead to a launch deck and an apex star.
  {x:1590,y:325,w:100,h:65},{x:1710,y:260,w:170,h:130},
  // 04: climb to a pressure plate; both chamber doors unlock together.
@@ -17,15 +17,13 @@ const blocks=[
 ];
 const doors=[{x:2700,y:207,w:20,h:183},{x:2940,y:207,w:20,h:183}];
 const plate={x:2460,y:305,w:52};let gateOpen=false;
-const stars=[{x:505,y:158},{x:1215,y:164},{x:1770,y:10},{x:2810,y:310},{x:3720,y:88}].map(s=>({...s,found:false}));
+const stars=[{x:630,y:70},{x:1390,y:125},{x:1770,y:10},{x:2810,y:310},{x:3720,y:88}].map(s=>({...s,found:false}));
 function solids(){return gateOpen?blocks:blocks.concat(doors);}
 function setGate(open){gateOpen=open;$('#gate-scene').classList.toggle('open',open);$('#gate-state').textContent=open?'OPEN':'LOCKED';}
 let x=65,y=310,vy=0,facing=1,started=false,paused=false,last=0,walk=false,grounded=true;
 const held=new Set(),reduce=matchMedia('(prefers-reduced-motion: reduce)');
-$('#blocks').innerHTML=blocks.map(b=>`<div class="block" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('');
+$('#blocks').innerHTML=blocks.map(b=>`<div class="block tile-${b.x<850?1:b.x<1500?2:b.x<2200?3:b.x<3100?4:5}" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('');
 $('#blocks').insertAdjacentHTML('beforeend',`<div id="gate-scene"><div class="wire" style="left:2486px;top:306px;width:224px;height:82px"></div><div class="pressure-plate" style="left:${plate.x}px;top:${plate.y-9}px;width:${plate.w}px"></div>${doors.map(b=>`<div class="gate-door" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('')}<div id="gate-state" style="left:2770px;top:211px">LOCKED</div></div>`);
-const zones=[['01 / 拾级而上',210],['02 / 跨越断阶',880],['03 / 极限跃起 ↑',1560],['04 / 踩亮按钮 · 打开星门',2300],['05 / 空中连跳',3190]];
-$('#blocks').insertAdjacentHTML('beforeend',zones.map(([name,left])=>`<div class="zone-label" style="left:${left}px">${name}</div>`).join(''));
 $('#stars').innerHTML=stars.map((s,i)=>`<div class="star" id="star-${i}" style="left:${s.x}px;top:${s.y}px" aria-hidden="true">★</div>`).join('');
 function collection(){const n=stars.filter(s=>s.found).length;$('#count').textContent=n;$('#progress').textContent=n===5?'五颗星已点亮。我的闪光点，是把好奇心变成真实作品。':`已发现 ${n} / 5 个项目，跳上平台，触碰星星解锁。`;$('#collection-list').innerHTML=stars.map((s,i)=>`<button data-project="${i}" ${s.found?'':'disabled'}>${s.found?'★ '+PROJECTS[i].name:'☆ 未发现 '+(i+1)}</button>`).join('');$('#collection-list').querySelectorAll('button').forEach(b=>b.onclick=()=>openProject(+b.dataset.project));}
 function openProject(i){if(!stars[i]?.found||dialog.open)return;held.clear();$('#project-name').textContent=PROJECTS[i].name;$('#project-body').innerHTML=PROJECTS[i].html;dialog.showModal();$('#state').textContent='项目档案';}
@@ -42,7 +40,7 @@ const keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',' ':'jump',ArrowD
 window.addEventListener('keydown',e=>{if(dialog.open||!started)return;if(!screen.contains(document.activeElement)&&document.activeElement!==screen)return;if(e.key==='Escape'){setPaused(!paused);return;}const a=keys[e.key];if(!a)return;e.preventDefault();if(!e.repeat)action(a);if(!paused)held.add(a);});
 window.addEventListener('keyup',e=>held.delete(keys[e.key]));window.addEventListener('blur',()=>{if(started)setPaused(true);});document.addEventListener('visibilitychange',()=>{if(document.hidden&&started)setPaused(true);});
 document.querySelectorAll('[data-action]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);if(!started||paused||dialog.open)return;held.add(b.dataset.action);action(b.dataset.action);screen.focus({preventScroll:true});});for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>held.delete(b.dataset.action));b.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();if(!e.repeat)action(b.dataset.action);if(started&&!paused)held.add(b.dataset.action);}});b.addEventListener('keyup',()=>held.delete(b.dataset.action));b.addEventListener('blur',()=>held.delete(b.dataset.action));});
-function render(){const camera=Math.max(0,Math.min(Math.max(0,WIDTH-screen.clientWidth),x-screen.clientWidth*.37));world.style.transform=`translateX(${-camera}px)`;player.style.transform=`translate(${x}px,${y}px) scaleX(${facing})`;const moving=started&&!paused&&!dialog.open&&(held.has('left')||held.has('right'))&&grounded&&!reduce.matches;const source=!grounded?'jump-4.png':moving?'walk.gif':'still.png';if(sprite.getAttribute('src')!=='assets/cyber-'+source)sprite.src='assets/cyber-'+source;}
+function render(){const zoom=screen.clientWidth<500?1.3:1.5;const viewW=screen.clientWidth/zoom,viewH=screen.clientHeight/zoom;const camera=Math.max(0,Math.min(Math.max(0,WIDTH-viewW),x-viewW*.37));const cameraY=Math.max(0,Math.min(Math.max(0,440-viewH),y+40-viewH*.56));world.style.transform=`scale(${zoom}) translate(${-camera}px,${-cameraY}px)`;player.style.transform=`translate(${x}px,${y}px) scaleX(${facing})`;const moving=started&&!paused&&!dialog.open&&(held.has('left')||held.has('right'))&&grounded&&!reduce.matches;const source=!grounded?'jump-4.png':moving?'walk.gif':'still.png';if(sprite.getAttribute('src')!=='assets/cyber-'+source)sprite.src='assets/cyber-'+source;}
 function step(dt){
  const dx=(held.has('right')?1:0)-(held.has('left')?1:0);if(dx)facing=dx;
  const oldX=x;x=Math.max(0,Math.min(WIDTH-66,x+dx*205*dt));
