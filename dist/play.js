@@ -50,6 +50,7 @@ function sound(kind){
  if(muted||!audioContext||audioContext.state!=='running')return;
  const notes=kind==='star'?[[784,0,.12],[988,.09,.14],[1175,.19,.17],[1568,.32,.3]]:
  kind==='complete'?[[784,0,.13],[988,.1,.13],[1175,.2,.13],[1568,.3,.17],[1976,.45,.35]]:
+ kind==='candy'?[[880,0,.09],[1320,.07,.16]]:
  kind==='gate'?[[330,0,.12],[440,.1,.12],[660,.2,.23]]:[[260,0,.13]];
  try{for(const [freq,delay,duration] of notes){const osc=audioContext.createOscillator(),gain=audioContext.createGain(),t=audioContext.currentTime+delay;
  osc.type=kind==='jump'?'square':'triangle';osc.frequency.setValueAtTime(freq,t);if(kind==='jump')osc.frequency.exponentialRampToValueAtTime(620,t+duration);
@@ -58,11 +59,15 @@ function sound(kind){
  }}catch{/* Optional audio fallback. */}
 }
 $('#sound').onclick=()=>{muted=!muted;unlockAudio();if(audioMaster)audioMaster.gain.setValueAtTime(muted?0:.16,audioContext.currentTime);$('#sound').textContent=muted?'音效：关':'音效：开';$('#sound').setAttribute('aria-pressed',String(muted));$('#sound').setAttribute('aria-label',muted?'开启音效':'关闭音效');if(started)screen.focus({preventScroll:true});};
-$('#blocks').innerHTML=blocks.map(b=>`<div class="block tile-${b.x<850?1:b.x<1500?2:b.x<2200?3:b.x<3100?4:5}${motivations[b.x]?' story-block':''}" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px">${motivations[b.x]?`<p class="block-story">${motivations[b.x]}</p>`:''}</div>`).join('');
+const candies=blocks.filter(b=>motivations[b.x]).map(b=>({x:b.x+b.w/2-8,y:b.y-27,text:motivations[b.x],project:b.x<850?0:b.x<1500?1:b.x<2200?2:b.x<3100?3:4,found:false}));
+$('#blocks').innerHTML=blocks.map(b=>`<div class="block" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('');
+$('#candies').innerHTML=candies.map((c,i)=>`<div id="candy-${i}" class="candy candy-${c.project}" style="left:${c.x}px;top:${c.y}px" aria-hidden="true"></div>`).join('');
+function noteCollection(){const found=candies.filter(c=>c.found);$('#notes').hidden=!found.length;$('#note-list').innerHTML=candies.map((c,i)=>c.found?`<button data-note="${i}">${PROJECTS[c.project].name} · 纸条 ${candies.slice(0,i+1).filter(n=>n.project===c.project).length}</button>`:'').join('');$('#note-list').querySelectorAll('button').forEach(b=>b.onclick=()=>openNote(+b.dataset.note));}
+function openNote(i){const c=candies[i];if(!c?.found||dialog.open)return;held.clear();dialog.classList.add('paper-note');$('#close-dialog').setAttribute('aria-label','关闭小纸条');dialog.querySelector('.dialog-kicker').textContent='捡到一张小纸条';$('#project-name').textContent=PROJECTS[c.project].name;$('#project-body').innerHTML='<p class="note-message"></p>';$('#project-body').querySelector('p').textContent=c.text;dialog.showModal();$('#state').textContent='发现小纸条';}
 $('#blocks').insertAdjacentHTML('beforeend',`<div id="gate-scene"><div class="wire" style="left:2486px;top:306px;width:224px;height:82px"></div><div class="pressure-plate" style="left:${plate.x}px;top:${plate.y-9}px;width:${plate.w}px"></div>${doors.map(b=>`<div class="gate-door" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('')}<div id="gate-state" style="left:2770px;top:211px">LOCKED</div></div>`);
 $('#stars').innerHTML=stars.map((s,i)=>`<div class="star" id="star-${i}" style="left:${s.x}px;top:${s.y}px" aria-hidden="true">★</div>`).join('');
 function collection(){const n=stars.filter(s=>s.found).length;$('#count').textContent=n;$('#progress').textContent=n===5?'五颗星已点亮。我的闪光点，是把好奇心变成真实作品。':`已发现 ${n} / 5 个项目，跳上平台，触碰星星解锁。`;$('#collection-list').innerHTML=stars.map((s,i)=>`<button data-project="${i}" ${s.found?'':'disabled'}>${s.found?'★ '+PROJECTS[i].name:'☆ 未发现 '+(i+1)}</button>`).join('');$('#collection-list').querySelectorAll('button').forEach(b=>b.onclick=()=>openProject(+b.dataset.project));}
-function openProject(i){if(!stars[i]?.found||dialog.open)return;held.clear();$('#project-name').textContent=PROJECTS[i].name;$('#project-body').innerHTML=PROJECTS[i].html;dialog.showModal();$('#state').textContent='项目档案';}
+function openProject(i){if(!stars[i]?.found||dialog.open)return;held.clear();dialog.classList.remove('paper-note');$('#close-dialog').setAttribute('aria-label','关闭项目介绍');dialog.querySelector('.dialog-kicker').textContent='STAR DISCOVERED / 项目档案';$('#project-name').textContent=PROJECTS[i].name;$('#project-body').innerHTML=PROJECTS[i].html;dialog.showModal();$('#state').textContent='项目档案';}
 function closeProject(){dialog.close();held.clear();$('#state').textContent=paused?'已暂停':'向右探索 →';screen.focus({preventScroll:true});}
 $('#close-dialog').onclick=$('#continue').onclick=closeProject;dialog.addEventListener('cancel',e=>{e.preventDefault();closeProject();});
 function jump(){if(started&&!paused&&!dialog.open&&grounded){vy=-575;grounded=false;sound('jump');}}
@@ -71,7 +76,7 @@ function action(a){unlockAudio();if(a==='jump')jump();if(a==='down')inspect();}
 function setPaused(value){paused=value;held.clear();$('#pause').textContent=paused?'▶':'Ⅱ';$('#pause').ariaLabel=paused?'继续游戏':'暂停游戏';$('#state').textContent=paused?'已暂停':'向右探索 →';}
 $('#pause').onclick=()=>{if(started){setPaused(!paused);screen.focus({preventScroll:true});}};
 $('#start').onclick=()=>{unlockAudio();started=true;$('#start-panel').hidden=true;setPaused(false);screen.focus({preventScroll:true});};
-$('#reset').onclick=()=>{x=65;y=310;vy=0;grounded=true;setGate(false);stars.forEach((s,i)=>{s.found=false;$('#star-'+i).classList.remove('found');});collection();setPaused(false);if(started)screen.focus({preventScroll:true});};
+$('#reset').onclick=()=>{x=65;y=310;vy=0;grounded=true;setGate(false);candies.forEach((c,i)=>{c.found=false;$('#candy-'+i).hidden=false;});noteCollection();stars.forEach((s,i)=>{s.found=false;$('#star-'+i).classList.remove('found');});collection();setPaused(false);if(started)screen.focus({preventScroll:true});};
 const keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',' ':'jump',ArrowDown:'down'};
 window.addEventListener('keydown',e=>{if(dialog.open||!started)return;if(!screen.contains(document.activeElement)&&document.activeElement!==screen)return;if(e.key==='Escape'){setPaused(!paused);return;}const a=keys[e.key];if(!a)return;e.preventDefault();if(!e.repeat)action(a);if(!paused)held.add(a);});
 window.addEventListener('keyup',e=>held.delete(keys[e.key]));window.addEventListener('blur',()=>{if(started)setPaused(true);});document.addEventListener('visibilitychange',()=>{if(document.hidden&&started)setPaused(true);});
@@ -85,6 +90,7 @@ function step(dt){
  for(const b of solids()){if(x+52>b.x&&x+14<b.x+b.w){if(vy>=0&&oldY+80<=b.y+.01&&y+80>=b.y){y=b.y-80;vy=0;grounded=true;}else if(vy<0&&oldY>=b.y+b.h-.01&&y<=b.y+b.h){y=b.y+b.h;vy=0;}}}
  if(y+80>=FLOOR){y=FLOOR-80;vy=0;grounded=true;}
  if(!gateOpen&&grounded&&Math.abs(y+80-plate.y)<1&&x+52>plate.x&&x+14<plate.x+plate.w){setGate(true);sound('gate');$('#state').textContent='星门已打开 →';}
+ for(let i=0;i<candies.length;i++){const c=candies[i];if(!c.found&&x+52>c.x&&x+14<c.x+16&&y<c.y+20&&y+80>c.y){c.found=true;$('#candy-'+i).hidden=true;noteCollection();sound('candy');openNote(i);return;}}
  for(let i=0;i<stars.length;i++){const s=stars[i];if((i!==3||gateOpen)&&!s.found&&x+52>s.x&&x+14<s.x+48&&y<s.y+48&&y+80>s.y){s.found=true;$('#star-'+i).classList.add('found');collection();sound(stars.every(star=>star.found)?'complete':'star');openProject(i);break;}}
 }
 function tick(t){const dt=Math.min((t-last)/1000||0,.025);last=t;if(started&&!paused&&!dialog.open){let remaining=dt;while(remaining>0&&!dialog.open){const slice=Math.min(remaining,1/120);step(slice);remaining-=slice;}}render();requestAnimationFrame(tick);}
