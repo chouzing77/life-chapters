@@ -1,16 +1,31 @@
 const PROJECTS=[{"name": "夕拾", "html": "<div class=\"experience-row\"><div class=\"entry-heading\"><h3>Windows 桌面日程工具</h3><p class=\"entry-role\">个人项目 · 产品设计、AI 辅助开发与用户运营</p></div><div class=\"entry-point\"><h4>产品设计与交付</h4><p>围绕桌面随时查看与处理日程的需求，设计透明看板、日/周/月视图和收缩待办卡片，支持拖动创建时间段、跨天安排、提前提醒及本地备份，完成 Windows 桌面产品交付。</p></div><div class=\"entry-point\"><h4>用户反馈与版本迭代</h4><p>累计积累近百名用户，根据用户需求完成最近两个版本迭代，持续完善日程安排与交互体验，将使用反馈落实为功能调整和版本更新。</p></div><div class=\"entry-point\"><h4>产品传播与方法沉淀</h4><p>结合自媒体平台开展产品介绍与传播，协助账号新增100 余名粉丝；将桌面封装、版本管理及故障排查沉淀为可复用打包 Skill。</p></div><a class=\"project-link\" href=\"https://github.com/chouzing77/xishi\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub · 查看项目 <span aria-hidden=\"true\">↗</span><span class=\"sr-only\">（在新标签页打开）</span></a></div>"}, {"name": "小裁神", "html": "<div class=\"experience-row\"><div class=\"entry-heading\"><h3>劳动权益决策辅助 Web 产品</h3><p class=\"entry-role\">个人项目 · 独立产品设计、AI 辅助开发与内容传播</p></div><div class=\"entry-point\"><h4>需求定义与产品实现</h4><p>针对劳动者被约谈、劝退或要求签字时信息分散、行动顺序不清的问题，将专业知识转化为分步决策辅助工具，完成需求拆解、产品设计、Web 实现与公开发布。</p></div><div class=\"entry-point\"><h4>核心功能与交互设计</h4><p>设计现状问卷、HR 谈判模拟、工资与补偿测算、证据任务及行动报告，组织24 道情形问卷、26 项证据任务，支持浏览器本地进度保存及报告导出。</p></div><div class=\"entry-point\"><h4>公开发布与内容传播</h4><p>通过 GitHub Pages 发布 v1.0，并在小红书、B 站等新媒体平台开展宣传，累计获得近 2,500 次内容播放。</p></div><a class=\"project-link\" href=\"https://github.com/chouzing77/xiaocaishen\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub · 查看项目 <span aria-hidden=\"true\">↗</span><span class=\"sr-only\">（在新标签页打开）</span></a></div>"}, {"name": "Personal Learning Coach", "html": "<div class=\"experience-row\"><div class=\"entry-heading\"><h3>自适应学习教练 Skill</h3><p class=\"entry-role\">个人项目 · AI 教学工作流设计、开源发布与内容实践</p></div><div class=\"entry-point\"><h4>教学流程设计</h4><p>针对 AI 学习中“看懂解释后仍难以独立应用”的问题，设计目标诊断、能力阶梯、主动练习、逐题考核、纠错、间隔复习和项目迁移的持续教学流程。</p></div><div class=\"entry-point\"><h4>学习档案与开源交付</h4><p>以 Markdown 保存学习档案，区分独立完成、提示后完成与待复测，根据学习表现调整任务难度；完成正式 Skill、方法模块及使用示例并开源发布。</p></div><div class=\"entry-point\"><h4>实践应用与内容传播</h4><p>在英语、公考及 AI 产品学习中持续应用，并将“AI 教考公”的实际使用过程制作成视频，全平台累计获得近 1,000 次点击。</p></div><a class=\"project-link\" href=\"https://github.com/chouzing77/personal-learning-coach\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub · 查看项目 <span aria-hidden=\"true\">↗</span><span class=\"sr-only\">（在新标签页打开）</span></a></div>"}, {"name": "轻剪", "html": "<div class=\"experience-row\"><div class=\"entry-heading\"><h3>本机视频剪辑与 AI 创作工具</h3><p class=\"entry-role\">个人项目 · 需求定义、产品设计与 AI 辅助开发</p></div><div class=\"entry-point\"><h4>需求洞察与流程设计</h4><p>从个人使用中遇到的基础剪辑功能收费、切换软件后操作不适应等问题出发，自行制作所需工具，设计素材导入、时间轴剪辑、字幕编辑、草稿保存与成片导出的完整流程。</p></div><div class=\"entry-point\"><h4>本机 AI 与剪辑辅助</h4><p>集成 Whisper 本机字幕识别、Qwen 创作文案，并结合音量停顿与字幕重复分析生成删减建议，支持人工试听、修正及撤销，保留用户对最终成片的控制。</p></div><div class=\"entry-point\"><h4>多端交付与质量验证</h4><p>使用 Electron 与 FFmpeg 交付 Web 和 Windows 1.1.0 版本，支持多格式导出及本地草稿恢复；公开源码、构建说明与测试，9 组现有测试通过，已知问题在仓库中说明。</p></div><a class=\"project-link\" href=\"https://github.com/chouzing77/qingjian\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub · 查看项目 <span aria-hidden=\"true\">↗</span><span class=\"sr-only\">（在新标签页打开）</span></a></div>"}, {"name": "贴贴", "html": "<div class=\"experience-row\"><div class=\"entry-heading\"><h3>记录型贴纸软件</h3><p class=\"entry-role\">个人项目 · 产品设计、离线 AI 集成与移动端交付</p></div><div class=\"entry-point\"><h4>生活场景与产品设计</h4><p>围绕“把生活照片变成贴纸，按日期记录和回顾”的需求，设计拍照/导入、自动抠图、人工修正、贴纸日历、收藏、统计和每周回顾流程。</p></div><div class=\"entry-point\"><h4>离线 AI 与个人表达</h4><p>集成本机主体分割和图片分类模型，生成贴纸及中文名称建议；提供手动圈选、边缘校正、描边样式和名称修改，将自动处理与个人表达结合。</p></div><div class=\"entry-point\"><h4>移动端交付与开源实践</h4><p>将 Web 产品封装为 Android 1.8.3 内测版，实现桌面组件、隐私分区与备份迁移；公开 Web 与 Android 源码，公开版 103 项自检通过，原内测身份配置与模型权重未随仓库分发。</p></div><a class=\"project-link\" href=\"https://github.com/chouzing77/tietie\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub · 查看项目 <span aria-hidden=\"true\">↗</span><span class=\"sr-only\">（在新标签页打开）</span></a></div>"}];
 const $=s=>document.querySelector(s),screen=$('#screen'),world=$('#world'),player=$('#player'),sprite=player.querySelector('img'),dialog=$('#project-dialog');
-const WIDTH=3400,FLOOR=390;
-const blocks=[];
-// Five stair-and-gap routes; every rise is within the 127px jump height.
-for(let i=0;i<5;i++){
- const base=230+i*620;
- blocks.push({x:base,y:345,w:85,h:45},{x:base+115,y:290,w:110,h:100},{x:base+245,y:235,w:110,h:155});
-}
-const stars=PROJECTS.map((p,i)=>({x:505+i*620,y:158,found:false}));
+const WIDTH=4200,FLOOR=390;
+const blocks=[
+ // 01: broad ascending steps.
+ {x:230,y:345,w:85,h:45},{x:345,y:290,w:110,h:100},{x:475,y:235,w:110,h:155},
+ // 02: separated narrow stepping stones, with safe ground below.
+ {x:900,y:330,w:75,h:60},{x:1050,y:285,w:65,h:105},{x:1200,y:240,w:80,h:150},
+ // 03: two tall steps lead to a launch deck and an apex star.
+ {x:1590,y:325,w:100,h:65},{x:1710,y:260,w:170,h:130},
+ // 04: climb to a pressure plate; both chamber doors unlock together.
+ {x:2310,y:350,w:90,h:40},{x:2420,y:305,w:130,h:85},
+ {x:2700,y:185,w:260,h:22},
+ // 05: a floating bridge, then a higher final ledge.
+ {x:3210,y:335,w:90,h:55},{x:3350,y:280,w:90,h:22},
+ {x:3510,y:225,w:90,h:22},{x:3670,y:165,w:140,h:22}
+];
+const doors=[{x:2700,y:207,w:20,h:183},{x:2940,y:207,w:20,h:183}];
+const plate={x:2460,y:305,w:52};let gateOpen=false;
+const stars=[{x:505,y:158},{x:1215,y:164},{x:1770,y:10},{x:2810,y:310},{x:3720,y:88}].map(s=>({...s,found:false}));
+function solids(){return gateOpen?blocks:blocks.concat(doors);}
+function setGate(open){gateOpen=open;$('#gate-scene').classList.toggle('open',open);$('#gate-state').textContent=open?'OPEN':'LOCKED';}
 let x=65,y=310,vy=0,facing=1,started=false,paused=false,last=0,walk=false,grounded=true;
 const held=new Set(),reduce=matchMedia('(prefers-reduced-motion: reduce)');
 $('#blocks').innerHTML=blocks.map(b=>`<div class="block" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('');
+$('#blocks').insertAdjacentHTML('beforeend',`<div id="gate-scene"><div class="wire" style="left:2486px;top:306px;width:224px;height:82px"></div><div class="pressure-plate" style="left:${plate.x}px;top:${plate.y-9}px;width:${plate.w}px"></div>${doors.map(b=>`<div class="gate-door" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('')}<div id="gate-state" style="left:2770px;top:211px">LOCKED</div></div>`);
+const zones=[['01 / 拾级而上',210],['02 / 跨越断阶',880],['03 / 极限跃起 ↑',1560],['04 / 踩亮按钮 · 打开星门',2300],['05 / 空中连跳',3190]];
+$('#blocks').insertAdjacentHTML('beforeend',zones.map(([name,left])=>`<div class="zone-label" style="left:${left}px">${name}</div>`).join(''));
 $('#stars').innerHTML=stars.map((s,i)=>`<div class="star" id="star-${i}" style="left:${s.x}px;top:${s.y}px" aria-hidden="true">★</div>`).join('');
 function collection(){const n=stars.filter(s=>s.found).length;$('#count').textContent=n;$('#progress').textContent=n===5?'五颗星已点亮。我的闪光点，是把好奇心变成真实作品。':`已发现 ${n} / 5 个项目，跳上平台，触碰星星解锁。`;$('#collection-list').innerHTML=stars.map((s,i)=>`<button data-project="${i}" ${s.found?'':'disabled'}>${s.found?'★ '+PROJECTS[i].name:'☆ 未发现 '+(i+1)}</button>`).join('');$('#collection-list').querySelectorAll('button').forEach(b=>b.onclick=()=>openProject(+b.dataset.project));}
 function openProject(i){if(!stars[i]?.found||dialog.open)return;held.clear();$('#project-name').textContent=PROJECTS[i].name;$('#project-body').innerHTML=PROJECTS[i].html;dialog.showModal();$('#state').textContent='项目档案';}
@@ -22,7 +37,7 @@ function action(a){if(a==='jump')jump();if(a==='down')inspect();}
 function setPaused(value){paused=value;held.clear();$('#pause').textContent=paused?'▶':'Ⅱ';$('#pause').ariaLabel=paused?'继续游戏':'暂停游戏';$('#state').textContent=paused?'已暂停':'向右探索 →';}
 $('#pause').onclick=()=>{if(started){setPaused(!paused);screen.focus({preventScroll:true});}};
 $('#start').onclick=()=>{started=true;$('#start-panel').hidden=true;setPaused(false);screen.focus({preventScroll:true});};
-$('#reset').onclick=()=>{x=65;y=310;vy=0;grounded=true;stars.forEach((s,i)=>{s.found=false;$('#star-'+i).classList.remove('found');});collection();setPaused(false);if(started)screen.focus({preventScroll:true});};
+$('#reset').onclick=()=>{x=65;y=310;vy=0;grounded=true;setGate(false);stars.forEach((s,i)=>{s.found=false;$('#star-'+i).classList.remove('found');});collection();setPaused(false);if(started)screen.focus({preventScroll:true});};
 const keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',' ':'jump',ArrowDown:'down'};
 window.addEventListener('keydown',e=>{if(dialog.open||!started)return;if(!screen.contains(document.activeElement)&&document.activeElement!==screen)return;if(e.key==='Escape'){setPaused(!paused);return;}const a=keys[e.key];if(!a)return;e.preventDefault();if(!e.repeat)action(a);if(!paused)held.add(a);});
 window.addEventListener('keyup',e=>held.delete(keys[e.key]));window.addEventListener('blur',()=>{if(started)setPaused(true);});document.addEventListener('visibilitychange',()=>{if(document.hidden&&started)setPaused(true);});
@@ -31,12 +46,13 @@ function render(){const camera=Math.max(0,Math.min(Math.max(0,WIDTH-screen.clien
 function step(dt){
  const dx=(held.has('right')?1:0)-(held.has('left')?1:0);if(dx)facing=dx;
  const oldX=x;x=Math.max(0,Math.min(WIDTH-66,x+dx*205*dt));
- for(const b of blocks){if(y+80>b.y+.01&&y<b.y+b.h&&x+52>b.x&&x+14<b.x+b.w){if(dx>0&&oldX+52<=b.x+.01)x=b.x-52;else if(dx<0&&oldX+14>=b.x+b.w-.01)x=b.x+b.w-14;}}
+ for(const b of solids()){if(y+80>b.y+.01&&y<b.y+b.h&&x+52>b.x&&x+14<b.x+b.w){if(dx>0&&oldX+52<=b.x+.01)x=b.x-52;else if(dx<0&&oldX+14>=b.x+b.w-.01)x=b.x+b.w-14;}}
  const oldY=y;vy+=1300*dt;y+=vy*dt;grounded=false;
- for(const b of blocks){if(x+52>b.x&&x+14<b.x+b.w){if(vy>=0&&oldY+80<=b.y+.01&&y+80>=b.y){y=b.y-80;vy=0;grounded=true;}else if(vy<0&&oldY>=b.y+b.h-.01&&y<=b.y+b.h){y=b.y+b.h;vy=0;}}}
+ for(const b of solids()){if(x+52>b.x&&x+14<b.x+b.w){if(vy>=0&&oldY+80<=b.y+.01&&y+80>=b.y){y=b.y-80;vy=0;grounded=true;}else if(vy<0&&oldY>=b.y+b.h-.01&&y<=b.y+b.h){y=b.y+b.h;vy=0;}}}
  if(y+80>=FLOOR){y=FLOOR-80;vy=0;grounded=true;}
- for(let i=0;i<stars.length;i++){const s=stars[i];if(!s.found&&x+52>s.x&&x+14<s.x+48&&y<s.y+48&&y+80>s.y){s.found=true;$('#star-'+i).classList.add('found');collection();openProject(i);break;}}
+ if(!gateOpen&&grounded&&Math.abs(y+80-plate.y)<1&&x+52>plate.x&&x+14<plate.x+plate.w){setGate(true);$('#state').textContent='星门已打开 →';}
+ for(let i=0;i<stars.length;i++){const s=stars[i];if((i!==3||gateOpen)&&!s.found&&x+52>s.x&&x+14<s.x+48&&y<s.y+48&&y+80>s.y){s.found=true;$('#star-'+i).classList.add('found');collection();openProject(i);break;}}
 }
-function tick(t){const dt=Math.min((t-last)/1000||0,.025);last=t;if(started&&!paused&&!dialog.open)step(dt);render();requestAnimationFrame(tick);}
+function tick(t){const dt=Math.min((t-last)/1000||0,.025);last=t;if(started&&!paused&&!dialog.open){let remaining=dt;while(remaining>0&&!dialog.open){const slice=Math.min(remaining,1/120);step(slice);remaining-=slice;}}render();requestAnimationFrame(tick);}
 collection();requestAnimationFrame(tick);
 
