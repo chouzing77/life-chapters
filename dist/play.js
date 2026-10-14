@@ -5,7 +5,7 @@ const blocks=[
  // 01: four narrow steps with higher rises.
  {x:230,y:330,w:65,h:60},{x:350,y:265,w:65,h:125},{x:480,y:200,w:60,h:190},{x:610,y:150,w:75,h:240},
  // 02: separated narrow stepping stones, with safe ground below.
- {x:900,y:325,w:55,h:65},{x:1060,y:245,w:48,h:145},{x:1220,y:300,w:45,h:90},{x:1375,y:205,w:60,h:185},
+ {x:900,y:325,w:75,h:65},{x:1060,y:245,w:48,h:145},{x:1220,y:300,w:85,h:90},{x:1375,y:205,w:60,h:185},
  // 03: two tall steps lead to a launch deck and an apex star.
  {x:1590,y:325,w:100,h:65},{x:1710,y:260,w:170,h:130},
  // 04: climb to a pressure plate; both chamber doors unlock together.
@@ -23,12 +23,41 @@ function setGate(open){gateOpen=open;$('#gate-scene').classList.toggle('open',op
 let x=65,y=310,vy=0,facing=1,started=false,paused=false,last=0,walk=false,grounded=true;
 const held=new Set(),reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const motivations={
- 480:'J人的我要一款能透明挂在桌面还不收我钱的日程管理工具',
- 1060:'被裁了，那就大庇天下寒士',
- 1710:'我加上AI，是不是等于无障碍学世上万物？',
- 2420:'杀千刀的剪映加个字幕要收钱？那我自己来！',
- 3510:'我是有小猫的人，我要用贴纸记录我的小猫！'
+ 230:'我是J人',
+ 350:'想要一款透明不挡着我看桌面的日程工具',
+ 480:'为啥这样的小工具要收我钱！',
+ 610:'want it？do it！',
+ 900:'公司发疯无故裁员？',
+ 1060:'法科生不是好欺负的！',
+ 1220:'如果这件事不止我一个人遇到呢？',
+ 1375:'大庇天下寒士！',
+ 1590:'我加上AI',
+ 1710:'是不是等于无障碍学世上万物？',
+ 2310:'杀千刀的剪映',
+ 2420:'加个字幕要收钱？那我自己来！',
+ 3210:'我是有小猫的人',
+ 3510:'我要用贴纸记录我的小猫！'
 };
+// Audio is synthesized locally and unlocked only by a player gesture.
+let audioContext=null,audioMaster=null,muted=false;
+function unlockAudio(){
+ try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
+ if(!audioContext){audioContext=new Audio();audioMaster=audioContext.createGain();audioMaster.gain.value=muted?0:0.16;audioMaster.connect(audioContext.destination);}
+ if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
+ }catch{/* Sound must never interrupt gameplay. */}
+}
+function sound(kind){
+ if(muted||!audioContext||audioContext.state!=='running')return;
+ const notes=kind==='star'?[[784,0,.12],[988,.09,.14],[1175,.19,.17],[1568,.32,.3]]:
+ kind==='complete'?[[784,0,.13],[988,.1,.13],[1175,.2,.13],[1568,.3,.17],[1976,.45,.35]]:
+ kind==='gate'?[[330,0,.12],[440,.1,.12],[660,.2,.23]]:[[260,0,.13]];
+ try{for(const [freq,delay,duration] of notes){const osc=audioContext.createOscillator(),gain=audioContext.createGain(),t=audioContext.currentTime+delay;
+ osc.type=kind==='jump'?'square':'triangle';osc.frequency.setValueAtTime(freq,t);if(kind==='jump')osc.frequency.exponentialRampToValueAtTime(620,t+duration);
+ gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(kind==='jump'?.22:.55,t+.008);gain.gain.exponentialRampToValueAtTime(.001,t+duration);
+ osc.connect(gain);gain.connect(audioMaster);osc.start(t);osc.stop(t+duration+.02);osc.onended=()=>{osc.disconnect();gain.disconnect();};
+ }}catch{/* Optional audio fallback. */}
+}
+$('#sound').onclick=()=>{muted=!muted;unlockAudio();if(audioMaster)audioMaster.gain.setValueAtTime(muted?0:.16,audioContext.currentTime);$('#sound').textContent=muted?'音效：关':'音效：开';$('#sound').setAttribute('aria-pressed',String(muted));$('#sound').setAttribute('aria-label',muted?'开启音效':'关闭音效');if(started)screen.focus({preventScroll:true});};
 $('#blocks').innerHTML=blocks.map(b=>`<div class="block tile-${b.x<850?1:b.x<1500?2:b.x<2200?3:b.x<3100?4:5}${motivations[b.x]?' story-block':''}" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px">${motivations[b.x]?`<p class="block-story">${motivations[b.x]}</p>`:''}</div>`).join('');
 $('#blocks').insertAdjacentHTML('beforeend',`<div id="gate-scene"><div class="wire" style="left:2486px;top:306px;width:224px;height:82px"></div><div class="pressure-plate" style="left:${plate.x}px;top:${plate.y-9}px;width:${plate.w}px"></div>${doors.map(b=>`<div class="gate-door" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('')}<div id="gate-state" style="left:2770px;top:211px">LOCKED</div></div>`);
 $('#stars').innerHTML=stars.map((s,i)=>`<div class="star" id="star-${i}" style="left:${s.x}px;top:${s.y}px" aria-hidden="true">★</div>`).join('');
@@ -36,12 +65,12 @@ function collection(){const n=stars.filter(s=>s.found).length;$('#count').textCo
 function openProject(i){if(!stars[i]?.found||dialog.open)return;held.clear();$('#project-name').textContent=PROJECTS[i].name;$('#project-body').innerHTML=PROJECTS[i].html;dialog.showModal();$('#state').textContent='项目档案';}
 function closeProject(){dialog.close();held.clear();$('#state').textContent=paused?'已暂停':'向右探索 →';screen.focus({preventScroll:true});}
 $('#close-dialog').onclick=$('#continue').onclick=closeProject;dialog.addEventListener('cancel',e=>{e.preventDefault();closeProject();});
-function jump(){if(started&&!paused&&!dialog.open&&grounded){vy=-575;grounded=false;}}
+function jump(){if(started&&!paused&&!dialog.open&&grounded){vy=-575;grounded=false;sound('jump');}}
 function inspect(){const i=stars.findIndex(s=>s.found&&Math.abs(s.x-x)<130);if(i>=0)openProject(i);else $('#state').textContent='跳上平台，触碰 ★';}
-function action(a){if(a==='jump')jump();if(a==='down')inspect();}
+function action(a){unlockAudio();if(a==='jump')jump();if(a==='down')inspect();}
 function setPaused(value){paused=value;held.clear();$('#pause').textContent=paused?'▶':'Ⅱ';$('#pause').ariaLabel=paused?'继续游戏':'暂停游戏';$('#state').textContent=paused?'已暂停':'向右探索 →';}
 $('#pause').onclick=()=>{if(started){setPaused(!paused);screen.focus({preventScroll:true});}};
-$('#start').onclick=()=>{started=true;$('#start-panel').hidden=true;setPaused(false);screen.focus({preventScroll:true});};
+$('#start').onclick=()=>{unlockAudio();started=true;$('#start-panel').hidden=true;setPaused(false);screen.focus({preventScroll:true});};
 $('#reset').onclick=()=>{x=65;y=310;vy=0;grounded=true;setGate(false);stars.forEach((s,i)=>{s.found=false;$('#star-'+i).classList.remove('found');});collection();setPaused(false);if(started)screen.focus({preventScroll:true});};
 const keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',' ':'jump',ArrowDown:'down'};
 window.addEventListener('keydown',e=>{if(dialog.open||!started)return;if(!screen.contains(document.activeElement)&&document.activeElement!==screen)return;if(e.key==='Escape'){setPaused(!paused);return;}const a=keys[e.key];if(!a)return;e.preventDefault();if(!e.repeat)action(a);if(!paused)held.add(a);});
@@ -55,8 +84,8 @@ function step(dt){
  const oldY=y;vy+=1300*dt;y+=vy*dt;grounded=false;
  for(const b of solids()){if(x+52>b.x&&x+14<b.x+b.w){if(vy>=0&&oldY+80<=b.y+.01&&y+80>=b.y){y=b.y-80;vy=0;grounded=true;}else if(vy<0&&oldY>=b.y+b.h-.01&&y<=b.y+b.h){y=b.y+b.h;vy=0;}}}
  if(y+80>=FLOOR){y=FLOOR-80;vy=0;grounded=true;}
- if(!gateOpen&&grounded&&Math.abs(y+80-plate.y)<1&&x+52>plate.x&&x+14<plate.x+plate.w){setGate(true);$('#state').textContent='星门已打开 →';}
- for(let i=0;i<stars.length;i++){const s=stars[i];if((i!==3||gateOpen)&&!s.found&&x+52>s.x&&x+14<s.x+48&&y<s.y+48&&y+80>s.y){s.found=true;$('#star-'+i).classList.add('found');collection();openProject(i);break;}}
+ if(!gateOpen&&grounded&&Math.abs(y+80-plate.y)<1&&x+52>plate.x&&x+14<plate.x+plate.w){setGate(true);sound('gate');$('#state').textContent='星门已打开 →';}
+ for(let i=0;i<stars.length;i++){const s=stars[i];if((i!==3||gateOpen)&&!s.found&&x+52>s.x&&x+14<s.x+48&&y<s.y+48&&y+80>s.y){s.found=true;$('#star-'+i).classList.add('found');collection();sound(stars.every(star=>star.found)?'complete':'star');openProject(i);break;}}
 }
 function tick(t){const dt=Math.min((t-last)/1000||0,.025);last=t;if(started&&!paused&&!dialog.open){let remaining=dt;while(remaining>0&&!dialog.open){const slice=Math.min(remaining,1/120);step(slice);remaining-=slice;}}render();requestAnimationFrame(tick);}
 collection();requestAnimationFrame(tick);
