@@ -1,11 +1,11 @@
 /* Shared visual emphasis: delivery, ownership and measured outcomes. */
-.project-signal{font:inherit;font-weight:650;color:#ff9af1!important;background:#17111f;padding:2px 5px;border:1px solid #db71cb77;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;text-shadow:0 0 9px #ef5bdf66;box-shadow:0 0 7px #b76de52b;line-height:inherit}
-#cyber-story .recruiter-card{padding:28px 24px;margin:28px 0;border:1px solid #bdb8d5;border-radius:10px;background:linear-gradient(135deg,#fffaff,#f7fbff 55%,#f1fffc);box-shadow:-3px 0 0 #ec8de0,3px 0 0 #93d7ed,0 0 20px #b77cc31c}
-#cyber-story .recruiter-card>header{padding:18px 20px;margin:-28px -24px 25px;background:repeating-linear-gradient(90deg,transparent 0 23px,#ffffff06 23px 24px),repeating-linear-gradient(0deg,transparent 0 23px,#ffffff10 23px 24px),linear-gradient(#151220,#151220);border-radius:9px 9px 0 0;border-bottom:1px solid #d77ddb}
-#cyber-story .recruiter-card>header h2{color:#fa8fe9;text-shadow:2px 2px #7141a3,0 0 16px #e96cde66}
+.project-signal{font:inherit;font-weight:650;color:#b5ff59!important;background:#10190e;padding:2px 5px;border:1px solid #a4f55477;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;text-shadow:0 0 9px #9aff4866;box-shadow:0 0 7px #8fe8452b;line-height:inherit}
+#cyber-story .recruiter-card{padding:28px 24px;margin:28px 0;border:1px solid #b8cdaa;border-radius:10px;background:linear-gradient(135deg,#fbfff6,#f7fbff 55%,#f1fffc);box-shadow:-3px 0 0 #a3ed58,3px 0 0 #93d7ed,0 0 20px #88c34b1c}
+#cyber-story .recruiter-card>header{padding:18px 20px;margin:-28px -24px 25px;background:repeating-linear-gradient(90deg,transparent 0 23px,#ffffff06 23px 24px),repeating-linear-gradient(0deg,transparent 0 23px,#ffffff10 23px 24px),linear-gradient(#111a12,#111a12);border-radius:9px 9px 0 0;border-bottom:1px solid #98dc59}
+#cyber-story .recruiter-card>header h2{color:#b5ff59;text-shadow:2px 2px #396b25,0 0 16px #9aff4866}
 #cyber-story .recruiter-card>header>span{color:#b4d7ed}
-#project-dialog:not(.paper-note){border-color:#ce8bdd;box-shadow:0 0 0 1px #78e1e1,0 0 28px #d270d44d,10px 10px #16393960;background:linear-gradient(135deg,#fffaff,#f5fbff)}
-#project-dialog:not(.paper-note) #project-name{color:#ff92eb;background:#151220;padding:15px 18px;border-left:4px solid #c678ed;text-shadow:2px 2px #633a94,0 0 14px #e96cde66;box-shadow:0 0 15px #d66bd82b;border-radius:4px}
-#project-dialog .recruiter-card{border-top:1px solid #d6c4e2;padding-top:6px}
+#project-dialog:not(.paper-note){border-color:#a3df64;box-shadow:0 0 0 1px #78e1e1,0 0 28px #94e24e4d,10px 10px #16393960;background:linear-gradient(135deg,#fbfff6,#f5fbff)}
+#project-dialog:not(.paper-note) #project-name{color:#b5ff59;background:#111a12;padding:15px 18px;border-left:4px solid #9deb51;text-shadow:2px 2px #315c21,0 0 14px #9aff4866;box-shadow:0 0 15px #94e24e2b;border-radius:4px}
+#project-dialog .recruiter-card{border-top:1px solid #c6ddba;padding-top:6px}
 @media(max-width:700px){#cyber-story .recruiter-card{padding:22px 16px}#cyber-story .recruiter-card>header{margin:-22px -16px 22px;padding:16px}#project-dialog:not(.paper-note) #project-name{font-size:23px}}
 @media(forced-colors:active){.project-signal{color:CanvasText!important;background:Canvas;border:1px solid CanvasText;text-shadow:none}}
