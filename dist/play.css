@@ -15,3 +15,10 @@
 
 /* Quiet square tiles, with glowing beans as the story collectibles. */
 .block{background:repeating-linear-gradient(90deg,transparent 0 28px,#315060 28px 31px),repeating-linear-gradient(#527e86 0 25px,#284654 25px 28px);border-top-color:#a9e2cf}.block:before,.block:after{display:none}.candy{--bean:#ffb7d1;position:absolute;width:16px;height:20px;z-index:3;border:2px solid #fff6d8;border-radius:7px;background:var(--bean);box-shadow:0 0 7px 2px var(--bean),0 0 18px var(--bean),inset -3px -3px #0003;pointer-events:none}.candy:before{content:"";position:absolute;top:3px;left:3px;width:3px;height:5px;background:#fff9}.candy-1{--bean:#c5b2ff}.candy-2{--bean:#ffd881}.candy-3{--bean:#93ecc6}.candy-4{--bean:#a3d9ff}dialog.paper-note{max-width:430px;background:repeating-linear-gradient(#fff7df 0 31px,#e5d7b8 31px 32px);border:1px solid #cfbd91;padding:34px 30px;box-shadow:7px 8px 0 #18364655}dialog.paper-note h2{font-size:18px;color:#857047}.paper-note .note-message{font-size:21px;line-height:1.9;color:#463c31;margin:24px 0;white-space:pre-wrap}.paper-note .dialog-kicker{background:#fff7df;color:#857047}#note-list{display:flex;flex-wrap:wrap;gap:8px}#note-list button{padding:10px 14px;border:1px solid #cabc96;background:#fff7df;color:#5c533e;font-size:12px}
+
+/* Slow turns keep the collectible's hit area fixed while signaling availability. */
+.star:not(.found){animation:star-turn 5s linear infinite;transform-origin:center;filter:drop-shadow(0 0 5px #ffe397) drop-shadow(0 0 12px #ffc359)}
+.candy{animation:bean-turn 3.6s linear infinite;transform-origin:center;will-change:transform}
+@keyframes star-turn{0%{transform:rotateY(0deg)}50%{transform:rotateY(180deg);filter:drop-shadow(0 0 8px #fff0ad) drop-shadow(0 0 19px #ffc359)}100%{transform:rotateY(360deg)}}
+@keyframes bean-turn{0%{transform:rotateY(0deg)}50%{transform:rotateY(180deg);filter:brightness(1.2)}100%{transform:rotateY(360deg)}}
+@media(prefers-reduced-motion:reduce){.star:not(.found),.candy{animation:none;will-change:auto}}
