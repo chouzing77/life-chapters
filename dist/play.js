@@ -13,7 +13,7 @@ const blocks=[
  {x:2700,y:185,w:260,h:22},
  // 05: a floating bridge, then a higher final ledge.
  {x:3210,y:335,w:90,h:55},{x:3350,y:280,w:90,h:22},
- {x:3510,y:225,w:90,h:22},{x:3670,y:165,w:140,h:22}
+ {x:3510,y:225,w:90,h:165},{x:3670,y:165,w:140,h:22}
 ];
 const doors=[{x:2700,y:207,w:20,h:183},{x:2940,y:207,w:20,h:183}];
 const plate={x:2460,y:305,w:52};let gateOpen=false;
@@ -22,7 +22,14 @@ function solids(){return gateOpen?blocks:blocks.concat(doors);}
 function setGate(open){gateOpen=open;$('#gate-scene').classList.toggle('open',open);$('#gate-state').textContent=open?'OPEN':'LOCKED';}
 let x=65,y=310,vy=0,facing=1,started=false,paused=false,last=0,walk=false,grounded=true;
 const held=new Set(),reduce=matchMedia('(prefers-reduced-motion: reduce)');
-$('#blocks').innerHTML=blocks.map(b=>`<div class="block tile-${b.x<850?1:b.x<1500?2:b.x<2200?3:b.x<3100?4:5}" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('');
+const motivations={
+ 480:'J人的我要一款能透明挂在桌面还不收我钱的日程管理工具',
+ 1060:'被裁了，那就大庇天下寒士',
+ 1710:'我加上AI，是不是等于无障碍学世上万物？',
+ 2420:'杀千刀的剪映加个字幕要收钱？那我自己来！',
+ 3510:'我是有小猫的人，我要用贴纸记录我的小猫！'
+};
+$('#blocks').innerHTML=blocks.map(b=>`<div class="block tile-${b.x<850?1:b.x<1500?2:b.x<2200?3:b.x<3100?4:5}${motivations[b.x]?' story-block':''}" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px">${motivations[b.x]?`<p class="block-story">${motivations[b.x]}</p>`:''}</div>`).join('');
 $('#blocks').insertAdjacentHTML('beforeend',`<div id="gate-scene"><div class="wire" style="left:2486px;top:306px;width:224px;height:82px"></div><div class="pressure-plate" style="left:${plate.x}px;top:${plate.y-9}px;width:${plate.w}px"></div>${doors.map(b=>`<div class="gate-door" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px"></div>`).join('')}<div id="gate-state" style="left:2770px;top:211px">LOCKED</div></div>`);
 $('#stars').innerHTML=stars.map((s,i)=>`<div class="star" id="star-${i}" style="left:${s.x}px;top:${s.y}px" aria-hidden="true">★</div>`).join('');
 function collection(){const n=stars.filter(s=>s.found).length;$('#count').textContent=n;$('#progress').textContent=n===5?'五颗星已点亮。我的闪光点，是把好奇心变成真实作品。':`已发现 ${n} / 5 个项目，跳上平台，触碰星星解锁。`;$('#collection-list').innerHTML=stars.map((s,i)=>`<button data-project="${i}" ${s.found?'':'disabled'}>${s.found?'★ '+PROJECTS[i].name:'☆ 未发现 '+(i+1)}</button>`).join('');$('#collection-list').querySelectorAll('button').forEach(b=>b.onclick=()=>openProject(+b.dataset.project));}
